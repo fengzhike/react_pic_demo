@@ -1,0 +1,9 @@
+### SublimeText ###
+*.sublime-workspace
+
+
+# App specific
+
+node_modules/
+.tmp
+
