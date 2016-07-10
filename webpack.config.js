@@ -37,7 +37,7 @@ module.exports = {
 
 			},
 			{
-				test:/\.(png|jpg|gif|woff|woff2)$/,
+				test:/\.(png|jpg|gif|woff|woff2|eot|ttf|svg)$/,
 				loader:'url-loader?limit=8192&name=./image/[name].[ext]',
 				exclude:"/node_modules/",
 				include:path.resolve(__dirname,"app")
