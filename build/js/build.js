@@ -120,8 +120,7 @@
 	                    React.createElement(
 	                        'p',
 	                        null,
-	                        this.props.data.desc,
-	                        '111'
+	                        this.props.data.desc
 	                    )
 	                )
 	            )
@@ -136,12 +135,28 @@
 	    displayName: 'ControllerUnit',
 
 	    handleClick: function handleClick(e) {
+	        //点击居中图片，翻转，否则居中 
+	        if (this.props.arrange.isCenter) {
+	            this.props.inverse();
+	        } else {
+	            this.props.center();
+	        }
 
 	        e.preventDefault();
 	        e.stopPropagation();
 	    },
 	    render: function render() {
-	        return React.createElement('span', { className: 'controller-unit', onClick: this.handleClick });
+
+	        var controllerUnitClassName = "controller-unit";
+	        //对应的是居中的图片，显示按钮居中态
+	        if (this.props.arrange.isCenter) {
+	            controllerUnitClassName += ' center';
+	            //同时，是反转图片，对应翻转态
+	            if (this.props.arrange.isInverse) {
+	                controllerUnitClassName += ' inverse';
+	            }
+	        }
+	        return React.createElement('span', { className: controllerUnitClassName, onClick: this.handleClick });
 	    }
 	});
 
@@ -206,7 +221,7 @@
 	            imgsArrangeTopArr = [],
 
 	        //上侧取一个或者不取
-	        topImgNum = Math.ceil(Math.random() * 2),
+	        topImgNum = Math.floor(Math.random() * 2),
 	            topImgSpliceIndex = 0,
 
 	        //中心图片
@@ -327,7 +342,7 @@
 	                };
 	            };
 	            imgFigures.push(React.createElement(ImgFigure, { key: "img-fig" + index, data: value, ref: "imgFigure" + index, arrange: this.state.imgsArrangeArr[index], inverse: this.inverse(index), center: this.center(index) }));
-	            contrellerUnits.push(React.createElement(ControllerUnit, { key: "con-unit" + index }));
+	            contrellerUnits.push(React.createElement(ControllerUnit, { key: "con-unit" + index, arrange: this.state.imgsArrangeArr[index], inverse: this.inverse(index), center: this.center(index) }));
 	        }.bind(this));
 
 	        return React.createElement(
@@ -396,7 +411,7 @@
 
 
 	// module
-	exports.push([module.id, "@font-face {\n  font-family: \"icons-turn-arrow\";\n  src: url(" + __webpack_require__(4) + ") format(\"embedded-opentype\"), url(" + __webpack_require__(5) + ") format(\"woff\"), url(" + __webpack_require__(6) + ") format(\"truetype\"), url(" + __webpack_require__(7) + ") format(\"svg\"); }\n\nhtml, body {\n  background-color: #222;\n  width: 100%;\n  height: 100%; }\n\n#container {\n  height: 100%;\n  width: 100%; }\n\n/* stage--start */\n.stage {\n  position: relative;\n  width: 100%;\n  height: 680px; }\n\n/* stage--end */\n/* img--start */\n.img-sec {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  background: #ddd;\n  perspective: 1800px; }\n  .img-figure {\n    width: 240px;\n    height: 280px;\n    margin: 0;\n    padding: 20px;\n    background-color: #fff;\n    position: absolute;\n    cursor: pointer;\n    transform-origin: 0 50% 0;\n    transform-style: preserve-3d;\n    transition: transform .6s ease-in-out, left .6s ease-in-out, top .6s ease-in-out; }\n    .img-figure figcaption {\n      text-align: center; }\n      .img-figure figcaption .img-title {\n        margin: 20px 0 0 0;\n        color: #a7a0a2;\n        font-size: 16px;\n        line-height: 20px; }\n      .img-figure figcaption .img-back {\n        position: absolute;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        padding: 50px 40px;\n        overflow: auto;\n        color: #a7a0a2;\n        font-size: 22px;\n        line-height: 1.25;\n        text-align: left;\n        background-color: #fff;\n        box-sizing: border-box;\n        transform: rotateY(180deg) translateZ(1px);\n        backface-visibility: hidden; }\n        .img-figure figcaption .img-back p {\n          margin: 0; }\n    .img-figure.inverse {\n      transform: translateX(280px) rotateY(180deg); }\n\n/* img--end */\n/* controller--start */\n.controller-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  z-index: 101;\n  width: 100%;\n  text-align: center; }\n  .controller-unit {\n    display: inline-block;\n    width: 20px;\n    height: 20px;\n    margin: 0 5px;\n    text-align: center;\n    cursor: pointer;\n    background-color: #aaa;\n    border-radius: 50px;\n    transform: scale(0.5); }\n    .controller-unit.center {\n      transform: scale(1); }\n\n/* controller--end */\n", ""]);
+	exports.push([module.id, "@font-face {\n  font-family: \"icons-turn-arrow\";\n  src: url(" + __webpack_require__(4) + ") format(\"embedded-opentype\"), url(" + __webpack_require__(5) + ") format(\"woff\"), url(" + __webpack_require__(6) + ") format(\"truetype\"), url(" + __webpack_require__(7) + ") format(\"svg\"); }\n\nhtml, body {\n  background-color: #222;\n  width: 100%;\n  height: 100%; }\n\n#container {\n  height: 100%;\n  width: 100%; }\n\n/* stage--start */\n.stage {\n  position: relative;\n  width: 100%;\n  height: 680px; }\n\n/* stage--end */\n/* img--start */\n.img-sec {\n  position: relative;\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  background: #ddd;\n  perspective: 1800px; }\n  .img-figure {\n    width: 240px;\n    height: 280px;\n    margin: 0;\n    padding: 20px;\n    background-color: #fff;\n    position: absolute;\n    cursor: pointer;\n    transform-origin: 0 50% 0;\n    transform-style: preserve-3d;\n    transition: transform .6s ease-in-out, left .6s ease-in-out, top .6s ease-in-out; }\n    .img-figure figcaption {\n      text-align: center; }\n      .img-figure figcaption .img-title {\n        margin: 20px 0 0 0;\n        color: #a7a0a2;\n        font-size: 16px;\n        line-height: 20px; }\n      .img-figure figcaption .img-back {\n        position: absolute;\n        top: 0;\n        left: 0;\n        width: 100%;\n        height: 100%;\n        padding: 50px 40px;\n        overflow: auto;\n        color: #a7a0a2;\n        font-size: 22px;\n        line-height: 1.25;\n        text-align: left;\n        background-color: #fff;\n        box-sizing: border-box;\n        transform: rotateY(180deg) translateZ(1px);\n        backface-visibility: hidden; }\n        .img-figure figcaption .img-back p {\n          margin: 0; }\n    .img-figure.inverse {\n      transform: translateX(280px) rotateY(180deg); }\n\n/* img--end */\n/* controller--start */\n.controller-nav {\n  position: absolute;\n  left: 0;\n  bottom: 30px;\n  z-index: 101;\n  width: 100%;\n  text-align: center; }\n  .controller-unit {\n    display: inline-block;\n    width: 20px;\n    height: 20px;\n    margin: 0 5px;\n    text-align: center;\n    line-height: 20px;\n    cursor: pointer;\n    background-color: #aaa;\n    border-radius: 50px;\n    transform: scale(0.5);\n    transition: transform .6s ease-in-out ,background-color .3s;\n    vertical-align: middle; }\n    .controller-unit.center {\n      transform: scale(1); }\n      .controller-unit.center::after {\n        font-family: \"icons-turn-arrow\";\n        content: \"\\E600\";\n        color: #fff;\n        font-size: 12px;\n        -wibkit-font-smoothing: antialiased;\n        -moz-font-smoothing: antialiased; }\n    .controller-unit.inverse {\n      background: #555;\n      transform: rotateY(180deg); }\n\n/* controller--end */\n", ""]);
 
 	// exports
 
@@ -20447,8 +20462,8 @@
 			"desc": "Hello everybody "
 		},
 		{
-			"fileName": "15.jpg",
-			"title": "第十五张",
+			"fileName": "16.jpg",
+			"title": "第十六张",
 			"desc": "Hello everybody "
 		}
 	];
